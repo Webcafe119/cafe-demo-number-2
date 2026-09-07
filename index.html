@@ -15,21 +15,22 @@
     body {
       background-color: #f8f9fa;
       color: #1a1a1a;
-      padding-bottom: 50px;
+      padding-bottom: 40px;
+      overflow-x: hidden;
     }
 
-    /* Hero Bannerf*/
+    /* Hero Banner */
     .hero {
       position: relative;
       width: 100%;
-      height: 260px;
+      height: 200px;
       background: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
     }
 
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.75) 100%);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -38,9 +39,8 @@
     }
 
     .hero-title {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 800;
-      letter-spacing: -0.5px;
     }
 
     .hero-subtitle {
@@ -53,14 +53,14 @@
     .container {
       max-width: 480px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 20px 16px;
     }
 
-    /* Quick Action Buttons */
+    /* Action Buttons */
     .action-group {
       display: flex;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .btn-action {
@@ -75,7 +75,7 @@
       font-size: 13px;
       text-decoration: none;
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
     .btn-ig {
@@ -86,13 +86,13 @@
       background-color: #111111;
     }
 
-    /* Category Nav */
+    /* Sliding Navigation Tabs */
     .nav-tags {
       display: flex;
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 8px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       scrollbar-width: none;
     }
 
@@ -100,7 +100,7 @@
       display: none;
     }
 
-    .nav-link {
+    .tab-btn {
       background: #ffffff;
       border: 1px solid #e9ecef;
       padding: 8px 16px;
@@ -108,23 +108,51 @@
       font-size: 13px;
       font-weight: 600;
       color: #495057;
-      text-decoration: none;
+      cursor: pointer;
       white-space: nowrap;
+      transition: all 0.2s ease;
     }
 
-    /* Sections */
-    .section-block {
-      margin-bottom: 32px;
+    .tab-btn.active {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
     }
 
+    /* Page Slider Wrapper */
+    .slider-wrapper {
+      position: relative;
+      width: 100%;
+      min-height: 400px;
+    }
+
+    /* Single Page View */
+    .page-view {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(30px);
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease, visibility 0.35s;
+    }
+
+    .page-view.active {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    /* Component Styles */
     .section-title {
       font-size: 18px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       color: #111111;
     }
 
-    /* Info Card */
     .info-card {
       background: #ffffff;
       border-radius: 16px;
@@ -135,7 +163,6 @@
       font-size: 14px;
     }
 
-    /* Menu Cards */
     .grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -195,7 +222,6 @@
       font-weight: 600;
     }
 
-    /* Gallery Grid */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -204,7 +230,7 @@
 
     .gallery-img {
       width: 100%;
-      height: 130px;
+      height: 140px;
       object-fit: cover;
       border-radius: 12px;
       display: block;
@@ -223,125 +249,211 @@
 
   <div class="container">
 
-    <!-- Action Buttons (Instagram & Reservation) -->
+    <!-- Action Buttons -->
     <div class="action-group">
       <a href="https://instagram.com" target="_blank" class="btn-action btn-ig">
         📸 Instagram
       </a>
-      <a href="#reservation" class="btn-action btn-reserve">
+      <button onclick="switchTab('reservation')" class="btn-action btn-reserve">
         📅 Reservasi Meja
-      </a>
+      </button>
     </div>
 
-    <!-- Category Navigation -->
+    <!-- Category Tabs -->
     <div class="nav-tags">
-      <a href="#about" class="nav-link">About Us</a>
-      <a href="#coffee" class="nav-link">Coffee</a>
-      <a href="#non-coffee" class="nav-link">Non-Coffee</a>
-      <a href="#pastry" class="nav-link">Pastry</a>
-      <a href="#gallery" class="nav-link">Gallery</a>
+      <button class="tab-btn active" onclick="switchTab('about')">About Us</button>
+      <button class="tab-btn" onclick="switchTab('coffee')">Coffee</button>
+      <button class="tab-btn" onclick="switchTab('non-coffee')">Non-Coffee</button>
+      <button class="tab-btn" onclick="switchTab('pastry')">Pastry & Food</button>
+      <button class="tab-btn" onclick="switchTab('dessert')">Dessert</button>
+      <button class="tab-btn" onclick="switchTab('gallery')">Gallery</button>
     </div>
 
-    <!-- About Us Section -->
-    <div id="about" class="section-block">
-      <h2 class="section-title">About Us</h2>
-      <div class="info-card">
-        Selamat datang di <b>CAFE DEMO</b>! Kami menyediakan tempat yang nyaman untuk bekerja (WFH), berkumpul bersama teman, serta menikmati sajian kopi berkualitas dan makanan lezat.
-      </div>
-    </div>
+    <!-- Slider Content Wrapper -->
+    <div class="slider-wrapper">
 
-    <!-- Coffee Section -->
-    <div id="coffee" class="section-block">
-      <h2 class="section-title">Coffee Selection</h2>
-      <div class="grid">
-        
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Iced Latte">
-          <div class="card-content">
-            <div class="card-header">
-              <h3 class="card-title">Signature Iced Latte</h3>
-              <span class="card-price">Rp 38.000</span>
-            </div>
-            <p class="card-desc">Espresso house blend dengan susu segar dan gula aren khas CAFE DEMO.</p>
-            <span class="card-tag">Best Seller</span>
-          </div>
+      <!-- PAGE: About Us -->
+      <div id="page-about" class="page-view active">
+        <h2 class="section-title">About Us</h2>
+        <div class="info-card">
+          Selamat datang di <b>CAFE DEMO</b>! Kami menyediakan tempat yang nyaman untuk bekerja (WFH), berkumpul bersama teman, serta menikmati sajian kopi berkualitas dan makanan lezat di pusat kota.
         </div>
+      </div>
 
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Americano">
-          <div class="card-content">
-            <div class="card-header">
-              <h3 class="card-title">Iced Americano</h3>
-              <span class="card-price">Rp 30.000</span>
+      <!-- PAGE: Coffee -->
+      <div id="page-coffee" class="page-view">
+        <h2 class="section-title">Coffee Selection</h2>
+        <div class="grid">
+          
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Signature Iced Latte">
+            <div class="card-content">
+              <div class="card-header">
+                <h3 class="card-title">Signature Iced Latte</h3>
+                <span class="card-price">Rp 38.000</span>
+              </div>
+              <p class="card-desc">Espresso house blend dengan susu segar dan gula aren khas CAFE DEMO.</p>
+              <span class="card-tag">Best Seller</span>
             </div>
-            <p class="card-desc">Double shot espresso segar dengan rasa manis alami biji kopi pilihan.</p>
-            <span class="card-tag">Classic</span>
           </div>
-        </div>
 
-      </div>
-    </div>
-
-    <!-- Non-Coffee Section -->
-    <div id="non-coffee" class="section-block">
-      <h2 class="section-title">Non-Coffee</h2>
-      <div class="grid">
-
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Matcha">
-          <div class="card-content">
-            <div class="card-header">
-              <h3 class="card-title">Matcha Latte</h3>
-              <span class="card-price">Rp 35.000</span>
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Iced Americano">
+            <div class="card-content">
+              <div class="card-header">
+                <h3 class="card-title">Iced Americano</h3>
+                <span class="card-price">Rp 30.000</span>
+              </div>
+              <p class="card-desc">Double shot espresso segar dengan rasa manis alami biji kopi pilihan.</p>
+              <span class="card-tag">Classic</span>
             </div>
-            <p class="card-desc">Uji Matcha Jepang otentik dengan creamy milk yang pas.</p>
-            <span class="card-tag">Favorite</span>
           </div>
-        </div>
 
-      </div>
-    </div>
-
-    <!-- Pastry Section -->
-    <div id="pastry" class="section-block">
-      <h2 class="section-title">Pastry & Food</h2>
-      <div class="grid">
-
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Croissant">
-          <div class="card-content">
-            <div class="card-header">
-              <h3 class="card-title">Butter Croissant</h3>
-              <span class="card-price">Rp 28.000</span>
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Caramel Macchiato">
+            <div class="card-content">
+              <div class="card-header">
+                <h3 class="card-title">Caramel Macchiato</h3>
+                <span class="card-price">Rp 42.000</span>
+              </div>
+              <p class="card-desc">Espresso dengan vanilla syrup, steamed milk, dan siraman saus karamel gurih.</p>
+              <span class="card-tag">Sweet & Rich</span>
             </div>
-            <p class="card-desc">Croissant renyah di luar dan lembut di dalam dengan butter pilihan.</p>
-            <span class="card-tag">Freshly Baked</span>
           </div>
+
         </div>
-
       </div>
-    </div>
 
-    <!-- Gallery Section -->
-    <div id="gallery" class="section-block">
-      <h2 class="section-title">Gallery</h2>
-      <div class="gallery-grid">
-        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Gallery 1">
-        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Gallery 2">
-        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Gallery 3">
-        <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Gallery 4">
-      </div>
-    </div>
+      <!-- PAGE: Non-Coffee -->
+      <div id="page-non-coffee" class="page-view">
+        <h2 class="section-title">Non-Coffee Drinks</h2>
+        <div class="grid">
 
-    <!-- Reservation Section -->
-    <div id="reservation" class="section-block">
-      <h2 class="section-title">Reservasi Meja</h2>
-      <div class="info-card">
-        Untuk pemesanan tempat, meja, atau acara di <b>CAFE DEMO</b>, silakan hubungi kami langsung melalui Direct Message (DM) Instagram.
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Matcha Latte">
+            <div class="card-content">
+              <div class="card-header">
+                <h3 class="card-title">Matcha Latte</h3>
+                <span class="card-price">Rp 35.000</span>
+              </div>
+              <p class="card-desc">Uji Matcha Jepang otentik dengan creamy milk yang pas.</p>
+              <span class="card-tag">Favorite</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Chocolate Signature">
+            <div class="card-content">
+              <div class="card-header">
+                <h3 class="card-title">Dark Chocolate</h3>
+                <span class="card-price">Rp 38.000</span>
+              </div>
+              <p class="card-desc">Cokelat hitam artisan 농축액 dengan rasa manis pahit yang seimbang.</p>
+              <span class="card-tag">Rich Cocoa</span>
+            </div>
+          </div>
+
+        </div>
       </div>
+
+      <!-- PAGE: Pastry & Food -->
+      <div id="page-pastry" class="page-view">
+        <h2 class="section-title">Pastry & Main Food</h2>
+        <div class="grid">
+
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Butter Croissant">
+            <div class="card-content">
+              <div class="card-header">
+                <h3 class="card-title">Butter Croissant</h3>
+                <span class="card-price">Rp 28.000</span>
+              </div>
+              <p class="card-desc">Croissant renyah di luar dan lembut di dalam dengan butter pilihan.</p>
+              <span class="card-tag">Freshly Baked</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Avocado Toast">
+            <div class="card-content">
+              <div class="card-header">
+                <h3 class="card-title">Avocado Toast</h3>
+                <span class="card-price">Rp 45.000</span>
+              </div>
+              <p class="card-desc">Roti sourdough panggang dengan alpukat tumbuk segar dan poached egg.</p>
+              <span class="card-tag">Healthy Choice</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PAGE: Dessert -->
+      <div id="page-dessert" class="page-view">
+        <h2 class="section-title">Sweet Desserts</h2>
+        <div class="grid">
+
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Chocolate Cake">
+            <div class="card-content">
+              <div class="card-header">
+                <h3 class="card-title">Fudge Chocolate Cake</h3>
+                <span class="card-price">Rp 35.000</span>
+              </div>
+              <p class="card-desc">Kue cokelat 가나슈 성분으로 진하고 부드러운 식감의 디저트.</p>
+              <span class="card-tag">Sweet Treat</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PAGE: Gallery -->
+      <div id="page-gallery" class="page-view">
+        <h2 class="section-title">Gallery</h2>
+        <div class="gallery-grid">
+          <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Gallery 1">
+          <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Gallery 2">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Gallery 3">
+          <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Gallery 4">
+        </div>
+      </div>
+
+      <!-- PAGE: Reservation -->
+      <div id="page-reservation" class="page-view">
+        <h2 class="section-title">Reservasi Meja</h2>
+        <div class="info-card">
+          Untuk pemesanan tempat, meja, atau acara di <b>CAFE DEMO</b>, silakan hubungi kami langsung melalui Direct Message (DM) Instagram.
+        </div>
+      </div>
+
     </div>
 
   </div>
+
+  <script>
+    function switchTab(tabId) {
+      // 1. Update Tab Button Style
+      const tabs = document.querySelectorAll('.tab-btn');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+        if(tab.getAttribute('onclick').includes(tabId)) {
+          tab.classList.add('active');
+        }
+      });
+
+      // 2. Slide Out Current Page & Slide In New Page
+      const pages = document.querySelectorAll('.page-view');
+      pages.forEach(page => {
+        page.classList.remove('active');
+      });
+
+      const targetPage = document.getElementById('page-' + tabId);
+      if(targetPage) {
+        targetPage.classList.add('active');
+      }
+    }
+  </script>
 
 </body>
 </html>
